@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class WeatherForecast {
     public Location location;
-    public List<Forecast> forecastList= new ArrayList<>();
+    public List<Forecast> forecastList= new ArrayList();
 
     public WeatherForecast(JSONObject jsonObject) throws JSONException{
 

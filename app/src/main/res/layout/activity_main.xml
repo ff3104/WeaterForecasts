@@ -7,6 +7,7 @@
 
     <TextView
         android:id="@+id/tv_location"
+        android:textSize="25sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -15,8 +16,10 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/tv_location">
 
     </LinearLayout>
+
 
 </RelativeLayout>

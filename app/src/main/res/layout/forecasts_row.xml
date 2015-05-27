@@ -7,26 +7,34 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
         android:text="New Text1"
         android:id="@+id/tv_date" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:minHeight="80dp"
+        android:minWidth="80dp"
         android:id="@+id/iv_weather"
         android:layout_toRightOf="@+id/tv_date" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:textSize="20sp"
         android:text="New Text2"
         android:id="@+id/tv_telop"
         android:layout_alignTop="@+id/iv_weather"
-        android:layout_toRightOf="@+id/tv_date" />
+        android:layout_toRightOf="@+id/iv_weather" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
         android:text="New Text3"
         android:id="@+id/tv_temperature"
         android:layout_below="@+id/tv_telop"

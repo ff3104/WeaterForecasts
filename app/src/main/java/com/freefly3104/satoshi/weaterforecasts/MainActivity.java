@@ -1,76 +1,56 @@
 package com.freefly3104.satoshi.weaterforecasts;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 
-public class MainActivity extends Activity {
+import java.util.Arrays;
+import java.util.List;
 
-    private TextView tv_location;
-    private LinearLayout forecastLayout;
-    private ProgressBar progress;
+public class MainActivity extends ActionBarActivity {
+
+    private static final String[] POINT_LIST = {
+        "270000",
+        "130010",
+        "040010"
+    };
+
+    private List<String> pointList;
+    private Adapter adapter;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tv_location = (TextView) findViewById(R.id.tv_location);
-        forecastLayout = (LinearLayout) findViewById(R.id.ll_forecasts);
-        progress = (ProgressBar) findViewById(R.id.progress);
+        if(pointList == null){
+            pointList = Arrays.asList(POINT_LIST);
+        }
 
-        new GetWeatherForecastTask().execute("400040");
+        viewPager = (ViewPager) findViewById(R.id.vp_main);
+        adapter = new Adapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+
     }
 
-    private class GetWeatherForecastTask extends GetWeatherForecastApiTask {
+    private class Adapter extends FragmentStatePagerAdapter{
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progress.setVisibility(View.VISIBLE);
+        public Adapter(FragmentManager fm){
+            super(fm);
         }
 
         @Override
-        protected void onPostExecute(WeatherForecast data) {
-            super.onPostExecute(data);
+        public Fragment getItem(int position) {
+            return FragmentWeather.newInstance(pointList.get(position));
+        }
 
-            progress.setVisibility(View.GONE);
-
-            if(data != null){
-                tv_location.setText(data.location.area + " " + data.location.prefecture + " " + data.location.city);
-
-                // 予報を一覧表示
-                for(WeatherForecast.Forecast forecast : data.forecastList){
-                    View view = View.inflate(MainActivity.this, R.layout.forecasts_row,null);
-
-                    TextView tv_date = (TextView) view.findViewById(R.id.tv_date);
-                    tv_date.setText(forecast.dateLabel);
-
-                    TextView tv_telop = (TextView) view.findViewById(R.id.tv_telop);
-                    tv_telop.setText(forecast.telop);
-
-                    TextView tv_temperature = (TextView) view.findViewById(R.id.tv_temperature);
-                    tv_temperature.setText(forecast.temperature.toString());
-
-
-                    ImageView imageView = (ImageView) view.findViewById(R.id.iv_weather);
-                    imageView.setTag(forecast.image.url); // 読み込むurlをセット
-
-                    // 画像の読み込み処理の実行
-                    new ImageLoaderTask().execute(imageView);
-
-                    forecastLayout.addView(view);
-
-                }
-
-            }else{
-                Toast.makeText(MainActivity.this, "Error!", Toast.LENGTH_SHORT).show();
-            }
+        @Override
+        public int getCount() {
+            return pointList.size();
         }
     }
 
